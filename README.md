@@ -7,6 +7,5 @@ Dans cette partie, je vais donner quelques explications en ce qui concerne le co
 
 # Après Authentification
 
-Après l'authentification, l'utilisateur qui à le rôle "user" pour tout faire en communiquant avec le back-end, mais à condition d'envoyer 
-le token avec chaque requête envoyée et il faut qu'il soit valide. la vérification est au niveau de la classe AuthorizationFilter 
-et plus particulièrement la méthode doInternal.
+Après l'authentification, l'utilisateur qui à le rôle "user" pour tout faire en communiquant avec le back-end, mais à condition d'envoyer
+le token stocké lors de l'authentification avec chaque requête et il faut qu'il soit valide pour effectuer le traitement demandé. La vérification de la validation du token est au niveau de la classe AuthorizationFilter et plus particulièrement la méthode doInternal.
