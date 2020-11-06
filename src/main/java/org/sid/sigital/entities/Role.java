@@ -12,8 +12,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+//Lombok (pour la création des getters et setters de tout les attributs ainsi que les constructeurs)
+
 @Data @AllArgsConstructor @NoArgsConstructor @ToString 
+
 @Entity
+
 public class Role implements Serializable{
 		private static final long serialVersionUID = 1L;
 		@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
