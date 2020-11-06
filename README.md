@@ -1,5 +1,5 @@
 
-Dans cette partie, je vais donner quelques explications du code de l'authentification JWT, par le diagramme de Séquence UML suivant:
+Dans cette partie, je vais donner quelques explications en ce qui concerne le code d'authentification JWT. L'utilisateur saisit son email,son mot de passe et clique sur le bouton connexion, spring security filterChain va appeler la méthode attemptAuthentication de la classe AuthenticationFilter pour récuperer l'utilisateur à partir de la base de données via une implementation de la classe UserDetailsService, après la récuperation de l'utilisateur avec son role la méthode successfulAuthentication est appélee par par spring security filterChain pour générer le token et l'envoyer à l'application front (Angular) pour le stocker dans le local storage, le diagramme de Séquence UML ci-dessous explique mieux:
 
 # Diagramme de Séquence UML
 
