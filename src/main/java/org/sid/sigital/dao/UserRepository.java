@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<UserApp, Long>{
 	
-	//Récuperer l'utilisateur qui a le username=username
+	//Récuperer l'utilisateur qui a le username passé en paramètre
 	
 	@Query("FROM UserApp where username=?1")
 	public UserApp findByUsername(String username);

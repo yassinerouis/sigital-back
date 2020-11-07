@@ -32,7 +32,7 @@ public class UserController {
 	
 	//pour sauvegarder l'utilisateur à partir des informations saisies avec le Role par défaut (USER)
 	
-	@PostMapping("users/save")
+	@PostMapping("saveUser")
 	public UserApp saveUser(@RequestBody UserApp user) {
 		Role role=roleRepository.getOne(1L);
 		user.setRole(role);
@@ -40,9 +40,9 @@ public class UserController {
 		return userRepository.save(user);
 	}
 	
-	//Pour récuperer un utilisateur à partir de la base de données
+	//Pour récuperer un utilisateur à partir de la base de données par son username
 	
-	@GetMapping("users/get/{username}")
+	@GetMapping("getUser/{username}")
 	public UserApp saveUser(@PathVariable("username") String username) {
 		return userRepository.findByUsername(username);
 	}

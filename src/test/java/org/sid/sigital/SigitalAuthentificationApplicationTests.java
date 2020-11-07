@@ -36,8 +36,10 @@ import lombok.SneakyThrows;
 
 @SpringBootTest
 class SigitalAuthentificationApplicationTests {
+	
 	@Autowired
 	UserRepository userRepository;
+	
 	@Autowired 
 	UserDetailsServiceImpl userDetailsService;
 	
@@ -53,7 +55,7 @@ class SigitalAuthentificationApplicationTests {
 		List<UserApp> users=userRepository.findAll();
 		int find=0;
 		for(int i=0;i<users.size();i++) {
-			if(users.get(i).getFirstName()==null ||users.get(i).getLastName()==null) {
+			if(users.get(i).getFirstName() == null || users.get(i).getLastName() == null) {
 				find=1;
 			}
 		}
@@ -71,17 +73,5 @@ class SigitalAuthentificationApplicationTests {
 			assertNotNull(users.get(i).getRole());
 		}
 	}
-	
-	
-	  @Test
-	  public void testUserDetailsImpl() {
-	     UserDetails userDetails= userDetailsService.loadUserByUsername("rouissi.yassine.97@gmail.com"); 
-	     Authentication authentication= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()) ; 
-	     SecurityContextHolder.getContext().setAuthentication(authentication);
-	     assertThat(SecurityContextHolder.getContext().getAuthentication())
-	             .satisfies(auth -> {
-	                 assertThat(auth).isNotNull();
-	                 assertThat(auth.getName()).isEqualTo("rouissi.yassine.97@gmail.com");
-	             });
-	 }
+
 }

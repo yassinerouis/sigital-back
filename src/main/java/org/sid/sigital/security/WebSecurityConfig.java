@@ -41,12 +41,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		//Le login et le register ne nécessitent pas de s'authentifier
 		
-		http.authorizeRequests().antMatchers("/login","/users/save").permitAll();
+		http.authorizeRequests().antMatchers("/login","/saveUser").permitAll();
 		
 		//Les autres requettes nécessitent une authentification avec le role par defaut USER
 		
 	    http.authorizeRequests().antMatchers("/","/**").hasAuthority("USER");
-	    
 		
 		//Nous n'avons pas besoin de la session proposée par spring car nous travaillerons avec JWT
 	    

@@ -21,7 +21,7 @@ public class SigitalAuthentificationApplication {
 	@Bean
 	CommandLineRunner start(RoleRepository roleRepository) {
 		return args->{
-			Role role=new Role(1L,"USER");
+			Role role = new Role(1L,"USER");
 			roleRepository.save(role);
 		};
 	}
