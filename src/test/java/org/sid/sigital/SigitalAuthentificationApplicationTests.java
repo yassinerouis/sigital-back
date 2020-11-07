@@ -1,21 +1,46 @@
 package org.sid.sigital;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.sid.sigital.dao.UserRepository;
 import org.sid.sigital.entities.UserApp;
+import org.sid.sigital.security.JWTAuthenticationFilter;
+import org.sid.sigital.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.mock.web.MockFilterChain;
+import org.springframework.mock.web.MockFilterConfig;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import lombok.SneakyThrows;
 
 @SpringBootTest
 class SigitalAuthentificationApplicationTests {
 	@Autowired
 	UserRepository userRepository;
+	@Autowired 
+	UserDetailsServiceImpl userDetailsService;
+	
 	@Test
 	void contextLoads() {
 	}
@@ -46,4 +71,17 @@ class SigitalAuthentificationApplicationTests {
 			assertNotNull(users.get(i).getRole());
 		}
 	}
+	
+	
+	  @Test
+	  public void testUserDetailsImpl() {
+	     UserDetails userDetails= userDetailsService.loadUserByUsername("rouissi.yassine.97@gmail.com"); 
+	     Authentication authentication= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()) ; 
+	     SecurityContextHolder.getContext().setAuthentication(authentication);
+	     assertThat(SecurityContextHolder.getContext().getAuthentication())
+	             .satisfies(auth -> {
+	                 assertThat(auth).isNotNull();
+	                 assertThat(auth.getName()).isEqualTo("rouissi.yassine.97@gmail.com");
+	             });
+	 }
 }

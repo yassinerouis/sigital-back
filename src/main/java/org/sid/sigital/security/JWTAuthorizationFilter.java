@@ -19,12 +19,16 @@ import io.jsonwebtoken.Jwts;
 
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-	//Pour chaque requette recu au niveau du serveur et qui veut demander un traitement à notre API cette méthode s'exécute
+	//Pour chaque requette reçue au niveau du serveur et qui veut demander un traitement à notre API cette méthode s'exécute
+	
+	public JWTAuthorizationFilter() {
+		
+	}
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		
+
 		//Demander au serveur la permission d'envoyer des requêtes à partir d'un autre domaine
 		
 		response.addHeader("Access-Control-Allow-Origin", "*");
@@ -45,14 +49,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 		//Ne pas activer la sécurité si la méthode de demande est OPTIONS
 		
-		if(request.getMethod().equals("OPTIONS")) response.setStatus(HttpServletResponse.SC_OK);
+		if(request.getMethod().equals("OPTIONS")) {
+			response.setStatus(HttpServletResponse.SC_OK);
+		}
 		else {
 			
 		//Récuperer le Token JWT 
 			
 		String jwt = request.getHeader(SecurityConstants.HEADER);
-		System.out.println(jwt);
-
 		if(jwt==null || !jwt.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 			filterChain.doFilter(request, response); return;
 		}
@@ -62,15 +66,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 						.parseClaimsJws(jwt.replace(SecurityConstants.TOKEN_PREFIX, ""))
 						.getBody();
 		String username = claims.getSubject();
-		System.out.println("22222");
-
+		
 		//Récuperer les roles de l'utilisateur qui à envoyer la requette 
 		
 		ArrayList<Map<String, String>> roles =  (ArrayList<Map<String, String>>) claims.get("roles");
 		Collection<GrantedAuthority> authoroties = new ArrayList<GrantedAuthority>();
 		roles.forEach(r-> 
 				{
-					System.out.println("22222"+r.get("authority"));
 					authoroties.add(new SimpleGrantedAuthority(r.get("authority")));
 			});
 		
@@ -80,7 +82,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 		filterChain.doFilter(request, response);
 	}
-		
 	}
 
 }

@@ -20,12 +20,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	//Pour récuperer et vérifier à partir de la base de données les informations de l'utilisateur authentifié
+	//Pour récupérer et vérifier à partir de la base de données les informations de l'utilisateur authentifié
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserApp user = userRepository.findByUsername(username);
-		System.out.println(user.getFirstName());
 		if(user==null) throw new UsernameNotFoundException(username);
 		Collection<GrantedAuthority> auts=new ArrayList<GrantedAuthority>();
 		auts.add(new SimpleGrantedAuthority(user.getRole().getName()));

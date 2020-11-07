@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-				
+
 		http.csrf().disable();
 		
 		//J'utilise JWTAuthorization filter que j'ai créé
@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.authorizeRequests().antMatchers("/login","/users/save").permitAll();
 		
-		//Les autres requettes nécessitent une authentification
+		//Les autres requettes nécessitent une authentification avec le role par defaut USER
 		
 	    http.authorizeRequests().antMatchers("/","/**").hasAuthority("USER");
 	    

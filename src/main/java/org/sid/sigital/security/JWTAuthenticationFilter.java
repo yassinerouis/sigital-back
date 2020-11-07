@@ -30,18 +30,25 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.authenticationManager = authenticationManager;
 	}
 
+	public JWTAuthenticationFilter() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
+		
 		// Pour récuperer les données de l'utilisateur lors de l'authentification
+		
 		UserApp user = null;	
 		
 		try {
 			user = new ObjectMapper().readValue(request.getInputStream(), UserApp.class);
-			System.out.println(user.getUsername());
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		
 		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 	}
 	
